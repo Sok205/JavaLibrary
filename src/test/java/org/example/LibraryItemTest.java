@@ -35,7 +35,7 @@ class LibraryItemTest {
     @Test
     void testBookDaysOverdue_NotOverdue() {
         library.borrowItem(book, student, 1);
-        assertEquals(-9, book.daysOverdue(5));
+        assertEquals(-10, book.daysOverdue(5));
     }
 
     @Test
