@@ -1,6 +1,8 @@
 package org.example.interfaces;
 
+import org.example.User;
+
 public interface Loanable {
-    int getLoanPeriod();
-    double getDailyOverdue();
+    int getLoanPeriod(User user);
+    double getDailyOverdueFee();
 }

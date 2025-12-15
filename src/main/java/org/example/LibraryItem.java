@@ -1,8 +1,13 @@
 package org.example;
 
-public abstract class LibraryItem {
+import org.example.interfaces.Searchable;
+
+import java.util.Objects;
+
+public abstract sealed class LibraryItem implements Searchable, Comparable<LibraryItem>
+        permits Book, Journal, Film {
     private final String libraryId;
-    private final String title;
+    private String title;
     private Integer borrowDate;
     private User borrower;
 
@@ -13,7 +18,11 @@ public abstract class LibraryItem {
 
     public abstract int getLoanPeriod(User user);
 
-    public abstract double getFinePerDay();
+    public abstract double getDailyOverdueFee();
+
+    public abstract int getTypeOrder();
+
+    public abstract Integer getYear();
 
     public void borrow(User user, int currentDay) {
         this.borrower = user;
@@ -47,7 +56,32 @@ public abstract class LibraryItem {
         if (overdueDays <= 0) {
             return 0.0;
         }
-        return overdueDays * getFinePerDay();
+        return overdueDays * getDailyOverdueFee();
+    }
+
+    @Override
+    public int compareTo(LibraryItem o) {
+        if (!Objects.equals(this.title, o.title)) {
+            return this.title.compareTo(o.title);
+        }
+
+        if (this.getTypeOrder() != o.getTypeOrder()) {
+            return Integer.compare(this.getTypeOrder(), o.getTypeOrder());
+        }
+
+        Integer thisYear = this.getYear();
+        Integer otherYear = o.getYear();
+        if (thisYear != null && otherYear != null) {
+            return Integer.compare(thisYear, otherYear);
+        }
+        if (thisYear != null) {
+            return -1;
+        }
+        if (otherYear != null) {
+            return 1;
+        }
+
+        return 0;
     }
 
     public String getLibraryId() {

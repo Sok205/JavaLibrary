@@ -1,6 +1,6 @@
 package org.example;
 
-public class Faculty extends User {
+public final class Faculty extends User {
     private static final int JOURNAL_LOAN_PERIOD = 7;
 
     public Faculty(String userId, String name, boolean isOnTime) {

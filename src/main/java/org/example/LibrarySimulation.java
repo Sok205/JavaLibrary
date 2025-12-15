@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.interfaces.OverdueObserver;
+
 import java.util.List;
 import java.util.Random;
 
@@ -18,6 +20,15 @@ public class LibrarySimulation {
         this.library = library;
         this.random = new Random();
         this.totalFinesCollected = 0.0;
+
+        library.addObserver(new EmailNotifier());
+
+        library.addObserver(new OverdueObserver() {
+            @Override
+            public void notifyOverdue(User user, LibraryItem item, int daysLate) {
+                System.out.println("Log: Overdue notification sent for " + item.getLibraryId());
+            }
+        });
     }
 
     public void simulate() {
@@ -32,6 +43,7 @@ public class LibrarySimulation {
             handleReturnAttempts(user, currentDay);
             handleOnTimeForcedReturns(user, currentDay);
         }
+        library.checkOverdue(currentDay);
     }
 
     private void handleBorrowAttempts(User user, int currentDay) {

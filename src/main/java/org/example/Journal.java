@@ -1,6 +1,8 @@
 package org.example;
 
-public class Journal extends LibraryItem {
+import org.example.interfaces.Loanable;
+
+public final class Journal extends LibraryItem implements Loanable {
     private static final double FINE_PER_DAY = 2.0;
 
     private final String eISSN;
@@ -23,8 +25,28 @@ public class Journal extends LibraryItem {
     }
 
     @Override
-    public double getFinePerDay() {
+    public double getDailyOverdueFee() {
         return FINE_PER_DAY;
+    }
+
+    @Override
+    public int getTypeOrder() {
+        return 1;
+    }
+
+    @Override
+    public Integer getYear() {
+        return null;
+    }
+
+    @Override
+    public boolean matches(String keyword) {
+        String lower = keyword.toLowerCase();
+        return getTitle().toLowerCase().contains(lower)
+                || publisher.toLowerCase().contains(lower)
+                || eISSN.toLowerCase().contains(lower)
+                || latestIssue.toLowerCase().contains(lower)
+                || journalURL.toLowerCase().contains(lower);
     }
 
     public String getEISSN() {

@@ -1,6 +1,6 @@
 package org.example;
 
-public class Student extends User {
+public final class Student extends User {
     private static final int MAX_BOOKS = 3;
     private static final int MAX_JOURNALS = 3;
     private static final int MAX_FILMS = 1;

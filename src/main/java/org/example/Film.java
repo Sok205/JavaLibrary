@@ -1,6 +1,8 @@
 package org.example;
 
-public class Film extends LibraryItem {
+import org.example.interfaces.Loanable;
+
+public final class Film extends LibraryItem implements Loanable {
     private static final int LOAN_PERIOD_DAYS = 2;
     private static final double FINE_PER_DAY = 5.0;
 
@@ -26,8 +28,29 @@ public class Film extends LibraryItem {
     }
 
     @Override
-    public double getFinePerDay() {
+    public double getDailyOverdueFee() {
         return FINE_PER_DAY;
+    }
+
+    @Override
+    public int getTypeOrder() {
+        return 2;
+    }
+
+    @Override
+    public Integer getYear() {
+        return year;
+    }
+
+    @Override
+    public boolean matches(String keyword) {
+        String lower = keyword.toLowerCase();
+        if (getTitle().toLowerCase().contains(lower)) return true;
+        if (genre.toLowerCase().contains(lower)) return true;
+        if (director.toLowerCase().contains(lower)) return true;
+        if (rating.toLowerCase().contains(lower)) return true;
+        if (year != null && String.valueOf(year).contains(lower)) return true;
+        return false;
     }
 
     public String getGenre() {
@@ -36,10 +59,6 @@ public class Film extends LibraryItem {
 
     public String getDirector() {
         return director;
-    }
-
-    public Integer getYear() {
-        return year;
     }
 
     public Integer getRuntime() {
